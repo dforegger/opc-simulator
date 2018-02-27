@@ -1,0 +1,23 @@
+.controls {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    width: 140px;
+    height: 140px;
+    border: 2px solid #ccc;
+    padding: 5px;
+    text-align: center;
+}
+
+.controls__buttons {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.controls__faders {
+    input {
+        margin: 5px 0;
+    }
+}

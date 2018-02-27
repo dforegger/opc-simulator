@@ -1,0 +1,80 @@
+$red: #c0392b;
+$green: #27ae60;
+$blue: #2980b9;
+$yellow: #f1c40f;
+$white: white;
+
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    // so it makes a +
+    .button--yellow,
+    .button--blue {
+        width: 100%;
+    }
+}
+
+
+.button {
+
+    button {
+        width: 26px;
+        height: 26px;
+        margin: 1px;
+        background-color: $white;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    &.is-disabled button  {
+        background-color: rgba($white, 0.2);
+        border: 2px solid transparent;
+    }
+
+    &.button--red {
+        button {
+            background-color: $red;
+        }
+
+        &.is-disabled button {
+            background-color: rgba($red, 0.2);
+        }
+    }
+
+    &.button--green {
+        button {
+            background-color: $green;
+        }
+
+        &.is-disabled button {
+            background-color: rgba($green, 0.2);
+        }
+    }
+
+    &.button--blue {
+        button {
+            background-color: $blue;
+        }
+
+        &.is-disabled button {
+            background-color: rgba($blue, 0.2);
+        }
+    }
+
+    &.button--yellow {
+        button {
+            background-color: $yellow;
+        }
+
+        &.is-disabled button {
+            background-color: rgba($yellow, 0.2);
+        }
+    }
+
+}
