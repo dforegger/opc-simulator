@@ -1,0 +1,32 @@
+# simulator
+
+## To compile client code
+```
+gulp simulator-build
+```
+
+## To run the simulator
+The following will start the simulator server with the default layout file (`hoeLayout.json`) and start a server on http://localhost:3030
+```
+gulp simulator
+```
+
+You can specify an different layout file
+```
+gulp simulator --layout ./layout/spire-large.json
+```
+
+
+## To run simulator without gulp
+```
+node ./simulator/server/server.js --layout layout/hoeLayout.json
+```
+
+
+## To develop the simulator
+The following will start the simulator with default layout and compile simulator client code from `/simulator/client`.  This will also start watchers that will reload the browser when files in `/simulator/client` are saved.
+```
+gulp simulator-build --watch
+```
+
+A browser-sync server will be running at http://localhost:3000
