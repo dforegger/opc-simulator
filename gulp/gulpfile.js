@@ -7,12 +7,10 @@ const gulp   = require("gulp");
 const path   = require("path");
 
 const loadSimulatorTasks = require("./pages/simulator.js");
-const loadControlsTasks = require("./pages/controls.js");
-const loadLayoutTasks = require("./pages/layout.js");
-const loadHoeTasks = require("./pages/hoe.js");
+//const loadLayoutTasks = require("./pages/layout.js");
 const loadAdminTasks = require("./pages/admin.js");
 
-const projectRoot = path.resolve(__dirname, ".");
+const projectRoot = path.resolve(__dirname, "./..");
 
 
 // default configuration
@@ -25,24 +23,16 @@ const projectRoot = path.resolve(__dirname, ".");
 
 
 /* gulp simulator */
-loadSimulatorTasks(projectRoot);
-
-/* gulp controls */
-loadControlsTasks(projectRoot);
+loadSimulatorTasks.gulp(projectRoot);
 
 /* gulp layout */
-loadLayoutTasks(projectRoot);
-
-/* gulp hoe */
-loadHoeTasks(projectRoot);
+//loadLayoutTasks(projectRoot);
 
 /* gulp admin */
 loadAdminTasks(projectRoot);
 
 
-gulp.task("build-all", ["simulator-build", "controls-build", "hoe-build"]);
-
-
+gulp.task("build-all", ["simulator-build", "admin-build"]);
 
 gulp.task("default", function(){
 
@@ -58,3 +48,5 @@ gulp.task("default", function(){
   console.log("");
 
 });
+
+exports.simserve = loadSimulatorTasks.serve
