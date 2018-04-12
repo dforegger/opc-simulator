@@ -11,8 +11,29 @@ const createNodemonTask     = require("../tasks/createNodemonTask.js");
 const createBrowserSyncTask = require("../tasks/createBrowserSyncTask.js");
 
 
+function runSimulator(cb, layout=null) {
+
+    // run the node server
+    // https://stackoverflow.com/questions/10232192/exec-display-stdout-live
+    const server = spawn("node",
+      ["simulator/server/server.js", "--layout", layout],
+      { cwd: `${projectRoot}` }
+    );
+
+    server.stdout.pipe(process.stdout);
+
+    server.stderr.pipe(process.stderr);
+
+    server.on("exit", (code) => {
+      const codeMsg = (code) ? `with code ${code.toString()}` : "";
+      console.log(` Simulator server stopped ${codeMsg}`);
+    });
+
+    cb();
+};
+
 // task to read the layout file and run the simulator server with that file
-module.exports = function simulatorTask(projectRoot) {
+function simulatorTask(projectRoot) {
 
   const simulatorRoot = path.resolve(projectRoot, "./simulator/");
   const simulatorDest = path.resolve(projectRoot, "./simulator/build/");
@@ -104,30 +125,14 @@ module.exports = function simulatorTask(projectRoot) {
 
   });
 
-
   /**
-   * run the simulator server (after it is already built)
-   */
-  gulp.task("simulator", function(cb){
-
-    // run the node server
-    // https://stackoverflow.com/questions/10232192/exec-display-stdout-live
-    const server = spawn("node",
-      ["simulator/server/server.js", "--layout", layout],
-      { cwd: `${projectRoot}` }
-    );
-
-    server.stdout.pipe(process.stdout);
-
-    server.stderr.pipe(process.stderr);
-
-    server.on("exit", (code) => {
-      const codeMsg = (code) ? `with code ${code.toString()}` : "";
-      console.log(` Simulator server stopped ${codeMsg}`);
-    });
-
-    cb();
-
-  });
-
+  * run the simulator server (after it is already built)
+  */
+  gulp.task("simulator", runSimulator);
 };
+
+exports.gulp = simulatorTask;
+exports.serve = runSimulator;
+
+
+
