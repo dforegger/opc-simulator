@@ -1,13 +1,15 @@
 {
   "name": "opc-simulator",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "This project is based of Velir.Frontend.Starter v3.0.1",
   "main": "index.js",
   "bin": {
     "opc-sim": "./bin.js"
   },
   "files": [
-    "bin.js"
+    "bin.js",
+    "simulator",
+    "layouts"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
