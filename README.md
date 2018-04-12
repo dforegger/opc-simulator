@@ -10,6 +10,6 @@ It is intended as a local developer tool.
 # Add to your package as a dev dependency
 npm install --save-dev opc-simulator
 
-#Run the script (TODO: Test this)
-npm run opc-simulator
+#Run the script
+npm explore opc-simulator -- ./bin.js
 ```
