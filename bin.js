@@ -13,7 +13,7 @@ const cmd = yargs
     .command(['serve','*'], 'serve the simulator', (yargs) => {
         yargs.options({
             "layout": {
-              default: "examples/layout.json",
+              default: "layouts/example.json",
               type: "string"
             }
         })
@@ -23,17 +23,3 @@ const cmd = yargs
     })
     .help()
     .argv;
-/*
-const layoutParser = yargs.options({
-    "layout": {
-      default: undefined,
-      type: "string"
-    }
-}).argv;
-
-
-const layout = layoutParser.layout || "not specified";
-
-console.log(`Layout: '${layout}'`);
-
-simulator(projectRoot, layout);*/
