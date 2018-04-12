@@ -1,5 +1,5 @@
 {
-  "name": "opc-ledscape-simulator",
+  "name": "opc-simulator",
   "version": "1.0.0",
   "description": "This project is based of Velir.Frontend.Starter v3.0.1",
   "main": "index.js",
