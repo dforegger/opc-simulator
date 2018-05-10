@@ -14,8 +14,10 @@ export default function createLEDs() {
 
 }
 
+  console.log("Hello");
 // view-source:https://threejs.org/examples/webgl_buffergeometry_points.html
 function createGeometry(layout) {
+
 
   // listen to the server for OPC messages
   const socket = new WebSocket("ws://localhost:3030");
@@ -51,21 +53,33 @@ function createGeometry(layout) {
 
   const geometry = new THREE.BufferGeometry();
 
+  const animated = !!layout[0].points;
+  const frames = animated ? layout[0].points.length : 1;
 
-  const positions = new Float32Array(layout.length * 3);
+  const positions = []
+  for(var f=0; f<frames; f++) {
+    positions.push(new Float32Array(layout.length * 3));
+  }
   const colors = new Float32Array(layout.length * 3);
 
   // add a single LED to the buffer geometry
-  const createLED = ( led, i ) => {
+  const createLED = ( point, buffer, j ) => {
+      const [ x, y, z ] = point;
 
-    const [ x, y, z ] = led.point;
+      buffer[ j ]     = x;
+      buffer[ j + 1 ] = y;
+      buffer[ j + 2 ] = z;
+  };
 
+  const createLEDFrames = ( led, i ) => {
     const j = i * 3;
-
-    positions[ j ]     = x;
-    positions[ j + 1 ] = y;
-    positions[ j + 2 ] = z;
-
+    if(animated) {
+      for(let [frame, point] of led.points.entries()) {
+        createLED(point, positions[frame], j);
+      }
+    } else {
+      createLED(led.point, positions[0], j);
+    }
     setRainbowHueForLED(i);
 
   };
@@ -80,13 +94,11 @@ function createGeometry(layout) {
     setHue(i, hue);
   }
 
-
-
   // create an LED mesh out of each layout object
-  layout.forEach(createLED);
+  layout.forEach(createLEDFrames);
 
 
-  geometry.addAttribute( "position", new THREE.BufferAttribute( positions, 3 ) );
+  geometry.addAttribute( "position", new THREE.BufferAttribute( positions[0], 3 ) );
   geometry.addAttribute( "color",    new THREE.BufferAttribute( colors,    3 ) );
 
   geometry.computeBoundingSphere();
@@ -147,8 +159,19 @@ function createGeometry(layout) {
     return hsl;
 
   }
+console.log(positions);
+  const frameCallback = (clock) => {
+    var frame = ~~(clock.getElapsedTime()*30) % positions.length;
+    var geo_positions = geometry.attributes.position.array;
 
-  return points;
+    for(var idx = 0; idx<geo_positions.length; idx++) {
+      geo_positions[idx] = positions[frame][idx];
+    }
+
+    geometry.attributes.position.needsUpdate = true;
+  }
+
+  return [points, animated ? frameCallback : null];
 
 }
 

@@ -23,23 +23,30 @@ export default function renderModel(store){
   scene.add(ambientLight);
   scene.add(ground);
 
+  var callbacks = [];
+
   // load the layout and add the LEDs
-  createLEDs().then(leds => {
+  createLEDs().then(([leds, frameCallback]) => {
     scene.add(leds);
+    if(frameCallback) {
+      callbacks.push(frameCallback);
+    }
   });
 
-
+  var clock = new THREE.Clock();
   var stats = new Stats();
   stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
   document.body.appendChild( stats.dom );
-
-
 
   function animate() {
 
     stats.begin();
 
     renderer.render( scene, camera );
+
+    for(var idx = 0; idx<callbacks.length; idx++) {
+      callbacks[idx](clock);
+    }
 
     stats.end();
 
