@@ -159,7 +159,9 @@ function createGeometry(layout) {
     return hsl;
 
   }
-console.log(positions);
+
+  const RAY_ROTATION_RATE = -2*Math.PI / 40.0
+
   const frameCallback = (clock) => {
     var frame = ~~(clock.getElapsedTime()*30) % positions.length;
     var geo_positions = geometry.attributes.position.array;
@@ -167,6 +169,9 @@ console.log(positions);
     for(var idx = 0; idx<geo_positions.length; idx++) {
       geo_positions[idx] = positions[frame][idx];
     }
+
+    //1 Rotation every 40s.
+    points.rotation.y = RAY_ROTATION_RATE * clock.getElapsedTime();
 
     geometry.attributes.position.needsUpdate = true;
   }
