@@ -163,7 +163,11 @@ function createGeometry(layout) {
   const RAY_ROTATION_RATE = -2*Math.PI / 40.0
 
   const frameCallback = (clock) => {
-    var frame = ~~(clock.getElapsedTime()*30) % positions.length;
+    //var frame = Math.floor(clock.getElapsedTime()*30) % positions.length;
+
+    //TODO: Until OSC messages sent to framework to sync loops, tie to system clock
+    //<Current time in ms> * <frames/millisecond>, mapped to positions.length
+    var frame = Math.floor(Date.now()*.03) % positions.length;
     var geo_positions = geometry.attributes.position.array;
 
     for(var idx = 0; idx<geo_positions.length; idx++) {
