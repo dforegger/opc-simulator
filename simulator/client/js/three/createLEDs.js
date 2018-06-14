@@ -14,7 +14,6 @@ export default function createLEDs() {
 
 }
 
-  console.log("Hello");
 // view-source:https://threejs.org/examples/webgl_buffergeometry_points.html
 function createGeometry(layout) {
 
