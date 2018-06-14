@@ -15,11 +15,15 @@ const cmd = yargs
             "layout": {
               default: "layouts/example.json",
               type: "string"
+            },
+            "ground": {
+                default: false,
+                type: "boolean"
             }
         })
     }, (argv) => {
         console.log('Layout: '+argv.layout);
-        simulator(projectRoot, argv.layout);
+        simulator(projectRoot, argv);
     })
     .help()
     .argv;

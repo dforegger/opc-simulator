@@ -14,32 +14,46 @@ export default function renderModel(store){
   const ambientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
   const renderer = createRenderer(store);
   const { camera, container } = createCamera(store);
-  const ground   = createGround();
 
   const scene = new THREE.Scene();
 
-
   scene.add(container);
   scene.add(ambientLight);
-  scene.add(ground);
+
+  function conditionallyAddGround(config) {
+    if(!!config.ground) {
+      scene.add(createGround());
+    }
+  }
+  fetch("config.json")
+    .then(response => response.json())
+    .then(conditionallyAddGround);
+
+
+  var callbacks = [];
 
   // load the layout and add the LEDs
-  createLEDs().then(leds => {
+  createLEDs().then(([leds, frameCallback]) => {
     scene.add(leds);
+    if(frameCallback) {
+      callbacks.push(frameCallback);
+    }
   });
 
-
+  var clock = new THREE.Clock();
   var stats = new Stats();
   stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
   document.body.appendChild( stats.dom );
-
-
 
   function animate() {
 
     stats.begin();
 
     renderer.render( scene, camera );
+
+    for(var idx = 0; idx<callbacks.length; idx++) {
+      callbacks[idx](clock);
+    }
 
     stats.end();
 

@@ -3,13 +3,14 @@ const spawn = require("child_process").spawn;
 
 const projectRoot = path.resolve(__dirname, ".");
 
-function runSimulator(projectRoot, layout) {
+function runSimulator(projectRoot, config) {
 
     // run the node server
     // https://stackoverflow.com/questions/10232192/exec-display-stdout-live
+    const args = config.ground ? ["simulator/server/server.js", "--layout", config.layout, "--ground"] : ["simulator/server/server.js", "--layout", config.layout]
     const server = spawn("node",
       //TODO: - would prefer this to use <simulator> as the root dir and just work
-      ["simulator/server/server.js", "--layout", layout],
+      args,
       { cwd: `${projectRoot}` }
     );
 
