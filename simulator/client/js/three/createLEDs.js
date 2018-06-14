@@ -124,7 +124,7 @@ function createGeometry(layout) {
 
     const j = i * 3;
 
-    const [ r, g, b ] = chroma.hsl(hue, 1, 0.5).rgb();
+    const [ r, g, b ] = chroma.hsl(hue, 1, 1).rgb();
 
     colors[ j ]     = r / 255;
     colors[ j + 1 ] = g / 255;

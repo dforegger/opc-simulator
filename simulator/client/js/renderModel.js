@@ -14,14 +14,21 @@ export default function renderModel(store){
   const ambientLight = new THREE.AmbientLight( 0x404040 ); // soft white light
   const renderer = createRenderer(store);
   const { camera, container } = createCamera(store);
-  const ground   = createGround();
 
   const scene = new THREE.Scene();
 
-
   scene.add(container);
   scene.add(ambientLight);
-  scene.add(ground);
+
+  function conditionallyAddGround(config) {
+    if(!!config.ground) {
+      scene.add(createGround());
+    }
+  }
+  fetch("config.json")
+    .then(response => response.json())
+    .then(conditionallyAddGround);
+
 
   var callbacks = [];
 

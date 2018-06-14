@@ -15,6 +15,11 @@ const yargs = require("yargs")
       describe: "path to layout file",
       required: true
     },
+    "ground": {
+      alias: "g",
+      describe: "include ground",
+      default: false
+    },
     "verbose": {
       alias: "v",
       describe: "Run in debug mode",
@@ -35,7 +40,7 @@ const buildDirectory = path.resolve(__dirname, "../build");
 const layoutDirectory = path.resolve(__dirname, "../../../layout");
 const layoutFile = path.resolve(process.cwd(), yargs.layout);
 const indexHtml = path.resolve(buildDirectory, "index.html");
-
+const showGround = !!yargs.ground;
 
 app.use(morgan("dev"));     /* debugging: "default", "short", "tiny", "dev" */
 // app.use(express.json());  // for parsing json
@@ -51,6 +56,11 @@ app.get("/layout.json", function(req, res){
 // serve the layout directory
 app.use("/layout", express.static(layoutDirectory));
 
+app.use("/config.json", function(req, res) {
+  res.json({
+    ground: showGround
+  });
+});
 
 // index.html
 app.get("/", function(req, res){
